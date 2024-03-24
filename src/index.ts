@@ -12,7 +12,11 @@ import GlobalEvent from '@/Window/Global/Event'
 
 export const appContainer: ContainerInterface = Container
 
+export const baseServerUrl: string = 'http://127.0.0.1:8090/socket.io'
+
 const RunNativeApplication = (serverUrl: string): void => {
+
+  serverUrl = serverUrl || baseServerUrl
 
   if (!serverUrl) throw new Error('serverUrl absent')
 

@@ -10,11 +10,11 @@ export interface ContainerInterface {
 
 class container implements ContainerInterface {
 
-  #containers = new WeakMap()
+  private containers = new WeakMap()
 
   register (className: any, args: any[] = [], isNewCreated: boolean = false): ContainerInterface {
     if (isNewCreated) this.remove(className)
-    this.#containers.set(className, new className(...args))
+    this.containers.set(className, new className(...args))
     return this
   }
 
@@ -24,15 +24,15 @@ class container implements ContainerInterface {
   }
 
   has (className: object): boolean {
-    return this.#containers.has(className)
+    return this.containers.has(className)
   }
 
   get <T = any>(className: object): T {
-    return this.#containers.get(className)
+    return this.containers.get(className)
   }
 
   remove (className: object): void {
-    this.has(className) && this.#containers.delete(className)
+    this.has(className) && this.containers.delete(className)
   }
 }
 
