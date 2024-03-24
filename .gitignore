@@ -1,0 +1,6 @@
+/.idea
+/.vscode
+/.git
+/dist
+/node_modules
+pnpm-lock.yaml
