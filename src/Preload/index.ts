@@ -1,32 +1,39 @@
 import { ipcRenderer } from 'electron'
 import ContextBridge from '@/Preload/ContextBridge'
 import Render from '@/Preload/ContextBridge/Render'
+import Three from '@/Preload/ContextBridge/WebGPU/Three'
 
 export type GlobalType = {
   messagePort?: MessagePort
+}
+
+export type BridgeWindow = Window & {
+  messagePort?: MessagePort
+  Three?: Three,
+  Ammo?: any,
+  windowPage?: {
+    windowUuid: string
+  }
 }
 
 export const global: GlobalType = {}
 
 ipcRenderer.on('messageChannel', async e => {
   global.messagePort = e.ports[0]
+  const bridgeWindow: BridgeWindow = window
 
-  // @ts-ignore
-  window.messagePort = global.messagePort
+  bridgeWindow.messagePort = global.messagePort
 
-  // @ts-ignore
-  window.messagePort.onmessage = (event: MessageEvent) => {
-
-    console.log(event)
-
+  bridgeWindow.messagePort.onmessage = (event: MessageEvent) => {
     if (event.data?.data?.type === 'render') {
-      new Render(window, event.data.data.html).render()
+      return new Render(window, event.data.data.html).render()
     }
 
     if (event.data?.event === 'register') {
-      // @ts-ignore
-      window.windowPage = event.data.data
-      new ContextBridge(global).expose(window)
+      bridgeWindow.windowPage = event.data.data
+      return new ContextBridge(global).expose(bridgeWindow)
     }
+
+    return bridgeWindow.onmessage?.(event)
   }
 })

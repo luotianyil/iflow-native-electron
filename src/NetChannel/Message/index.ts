@@ -60,6 +60,11 @@ export default class Message implements MessageInterface {
     if (this.defaultWindowEvent[data.event])
       return this.defaultWindowEvent[data.event](data.event, data.options, window)
 
+    window.webContents.executeJavaScript(`
+        (() => {
+          window.onMessageChannel?.(${JSON.stringify(data)})
+        })()
+    `)
     return this.window.messageChannel.emit(window, data)
   }
 

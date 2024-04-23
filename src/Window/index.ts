@@ -41,15 +41,23 @@ export default class Window implements WindowInterface {
       browserWindow.once('ready-to-show', () => {
         this.messageChannel.subscribe(browserWindow)
         new MessageChannelEvent(this.app, websocket, browserWindow, this)
+
+        // 是否打开控制台
+        if (options.openDevTools) browserWindow.webContents.openDevTools()
+
+        // 页面加载完毕
+        browserWindow.webContents.executeJavaScript(`
+          (() => {
+            window.onReadyLoad?.();
+            window.onLoad?.();
+          })()
+        `)
       })
 
       await browserWindow[url.startsWith('http') ? 'loadURL' : 'loadFile'](url)
 
       // 是否显示 窗口菜单
       browserWindow.menuBarVisible = options.menuBarVisible || false
-
-      // 是否打开控制台
-      if (options.openDevTools) browserWindow.webContents.openDevTools()
 
       // 是否隐藏窗口
       if (options.hidden) browserWindow.hide()

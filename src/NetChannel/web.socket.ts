@@ -29,6 +29,7 @@ export default class WebSocket implements WebSocketInterface {
 
     this.app = app
     this.window = window
+    // @ts-ignore
     this.socket = io(serverUrl, { transports: [ 'websocket' ] })
 
     this.message = new Message(this, this.window)
@@ -47,6 +48,7 @@ export default class WebSocket implements WebSocketInterface {
 
   emit(event: string, data?: any): Promise<any> {
     return new Promise<any>(resolve => {
+      // @ts-ignore
       this.socket.emit(event, data, (response: any) => resolve(response))
     })
   }

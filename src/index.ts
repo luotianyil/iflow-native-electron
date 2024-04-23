@@ -18,7 +18,10 @@ const RunNativeApplication = (serverUrl: string): void => {
 
   serverUrl = serverUrl || baseServerUrl
 
-  if (!serverUrl) throw new Error('serverUrl absent')
+  if (!serverUrl) {
+    app.exit()
+    throw new Error('serverUrl absent')
+  }
 
   appContainer
     // 注册窗口
@@ -37,6 +40,6 @@ const RunNativeApplication = (serverUrl: string): void => {
 }
 
 const serverUrl = process.argv.filter((arg) => arg.startsWith('net-url='))
-  .shift()?.split?.('=')?.pop()
+  .shift()?.split?.('=')?.pop?.()
 
 RunNativeApplication(serverUrl || '')

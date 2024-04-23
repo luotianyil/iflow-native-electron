@@ -1,11 +1,11 @@
-import { GlobalType } from '@/Preload'
+import { BridgeWindow, GlobalType } from '@/Preload'
 import { ipcRenderer } from 'electron'
 
 export default class MessageChannel {
 
   global: GlobalType
 
-  window: Window
+  window: BridgeWindow
 
   windowUuid: string
 
@@ -23,12 +23,11 @@ export default class MessageChannel {
     }
   }
 
-  constructor(global: GlobalType, window: Window) {
+  constructor(global: GlobalType, window: BridgeWindow) {
     this.global = global
     this.window = window
 
-    // @ts-ignore
-    this.windowUuid = window.windowPage.windowUuid
+    this.windowUuid = window.windowPage?.windowUuid || ''
   }
 
   request (data: any) {

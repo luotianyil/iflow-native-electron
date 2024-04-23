@@ -37,7 +37,7 @@ module.exports = {
     'ffi-napi',
     'ref-napi',
     'ref-array-napi',
-    'ref-struct-napi',
+    'ref-struct-napi'
   ],
   externalsPresets: {
     node: true,

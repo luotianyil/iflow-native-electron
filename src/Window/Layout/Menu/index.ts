@@ -11,7 +11,7 @@ export default class Menu extends LayoutAdapterAbstract implements MenuInterface
   setMenu(menuOptions: MenuOptionsType): void {
     const menu = Array.isArray(menuOptions) ? menuOptions : Object.values(menuOptions)
 
-    if (menu.length && this.window)
+    if (menu.length && this.window && this.browserWindow.menuBarVisible)
       this.browserWindow.setMenu(WindowMenu.buildFromTemplate(this.replaceMenuClickHandle(menu)))
   }
 

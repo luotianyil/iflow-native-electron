@@ -1,5 +1,5 @@
 import { App, BrowserWindow, MessageChannelMain, ipcMain } from 'electron'
-import { MessageChannelInterface, MessageChannelType, onListenerAction } from '#/Window/MessageChannel'
+import { MessageChannelInterface, MessageChannelType } from '#/Window/MessageChannel'
 
 export default class MessageChannel implements MessageChannelInterface {
 
